@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>
+  <%= title || 'Dashboard - Ester' %>
+ </title>
+
+ <!-- Meta tags SEO -->
+ <% if (typeof meta !=='undefined' ) { %>
+  <% if (meta.description) { %>
+   <meta name="description" content="<%= meta.description %>">
+   <% } %>
+    <% if (meta.keywords) { %>
+     <meta name="keywords" content="<%= meta.keywords %>">
+     <% } %>
+      <% } %>
+
+       <!-- Favicon -->
+       <link rel="icon" type="image/x-icon" href="/favicon.ico">
+
+       <!-- CSS -->
+       <link rel="stylesheet" href="/css/main.css">
+
+       <!-- Fonts -->
+       <link rel="preconnect" href="https://fonts.googleapis.com">
+       <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+       <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+       <!-- Icons -->
+       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+ <!-- Navigation -->
+ <%- include('../partials/navigation') %>
+
+  <!-- Messages Flash -->
+  <%- include('../partials/flash-messages') %>
+
+   <!-- Contenu principal -->
+   <main class="main-content">
+    <div class="dashboard-container">
+     <!-- En-tête du dashboard -->
+     <div class="dashboard-header">
+      <div class="welcome-section">
+       <h1 class="dashboard-title">
+        <i class="fas fa-tachometer-alt"></i>
+        Bonjour, <%= user.firstName %> !
+       </h1>
+       <p class="dashboard-subtitle">
+        Bienvenue sur votre tableau de bord personnel
+       </p>
+      </div>
+
+      <!-- Horloge en temps réel -->
+      <div class="clock-section">
+       <div class="clock-container">
+        <div class="clock-time" id="current-time">
+         <span class="time-hours" id="hours">--</span>
+         <span class="time-separator">:</span>
+         <span class="time-minutes" id="minutes">--</span>
+         <span class="time-separator">:</span>
+         <span class="time-seconds" id="seconds">--</span>
+        </div>
+        <div class="clock-date" id="current-date">
+         <span class="date-day" id="day">--</span>
+         <span class="date-month" id="month">--</span>
+         <span class="date-year" id="year">--</span>
+        </div>
+       </div>
+      </div>
+     </div>
+
+     <!-- Cartes d'informations -->
+     <div class="dashboard-cards">
+      <div class="dashboard-card">
+       <div class="card-icon">
+        <i class="fas fa-user"></i>
+       </div>
+       <div class="card-content">
+        <h3 class="card-title">Profil</h3>
+        <p class="card-description">
+         <%= user.firstName %>
+          <%= user.lastName %>
+        </p>
+        <a href="/profile" class="card-link">
+         Voir le profil
+         <i class="fas fa-arrow-right"></i>
+        </a>
+       </div>
+      </div>
+
+      <div class="dashboard-card">
+       <div class="card-icon">
+        <i class="fas fa-envelope"></i>
+       </div>
+       <div class="card-content">
+        <h3 class="card-title">Email</h3>
+        <p class="card-description">
+         <%= user.email %>
+        </p>
+        <a href="/profile" class="card-link">
+         Modifier
+         <i class="fas fa-edit"></i>
+        </a>
+       </div>
+      </div>
+
+      <div class="dashboard-card">
+       <div class="card-icon">
+        <i class="fas fa-clock"></i>
+       </div>
+       <div class="card-content">
+        <h3 class="card-title">Dernière connexion</h3>
+        <p class="card-description" id="last-login">
+         Maintenant
+        </p>
+        <span class="card-link">
+         Session active
+         <i class="fas fa-circle text-success"></i>
+        </span>
+       </div>
+      </div>
+
+      <div class="dashboard-card">
+       <div class="card-icon">
+        <i class="fas fa-shield-alt"></i>
+       </div>
+       <div class="card-content">
+        <h3 class="card-title">Sécurité</h3>
+        <p class="card-description">
+         Compte sécurisé
+        </p>
+        <a href="/change-password" class="card-link">
+         Changer le mot de passe
+         <i class="fas fa-key"></i>
+        </a>
+       </div>
+      </div>
+     </div>
+
+     <!-- Actions rapides -->
+     <div class="dashboard-actions">
+      <h2 class="section-title">
+       <i class="fas fa-bolt"></i>
+       Actions rapides
+      </h2>
+
+      <div class="actions-grid">
+       <a href="/profile" class="action-button">
+        <div class="action-icon">
+         <i class="fas fa-user-edit"></i>
+        </div>
+        <div class="action-content">
+         <h3 class="action-title">Modifier le profil</h3>
+         <p class="action-description">
+          Mettre à jour vos informations personnelles
+         </p>
+        </div>
+       </a>
+
+       <a href="/change-password" class="action-button">
+        <div class="action-icon">
+         <i class="fas fa-key"></i>
+        </div>
+        <div class="action-content">
+         <h3 class="action-title">Changer le mot de passe</h3>
+         <p class="action-description">
+          Modifier votre mot de passe pour plus de sécurité
+         </p>
+        </div>
+       </a>
+
+       <a href="/api/status" class="action-button" target="_blank">
+        <div class="action-icon">
+         <i class="fas fa-chart-line"></i>
+        </div>
+        <div class="action-content">
+         <h3 class="action-title">Statut du système</h3>
+         <p class="action-description">
+          Vérifier le statut et les performances
+         </p>
+        </div>
+       </a>
+
+       <button onclick="refreshDashboard()" class="action-button">
+        <div class="action-icon">
+         <i class="fas fa-sync-alt"></i>
+        </div>
+        <div class="action-content">
+         <h3 class="action-title">Actualiser</h3>
+         <p class="action-description">
+          Mettre à jour les informations du tableau de bord
+         </p>
+        </div>
+       </button>
+      </div>
+     </div>
+
+     <!-- Statistiques personnelles -->
+     <div class="dashboard-stats">
+      <h2 class="section-title">
+       <i class="fas fa-chart-bar"></i>
+       Vos statistiques
+      </h2>
+
+      <div class="stats-grid">
+       <div class="stat-card">
+        <div class="stat-icon">
+         <i class="fas fa-calendar-day"></i>
+        </div>
+        <div class="stat-value" id="member-since">
+         Calculé...
+        </div>
+        <div class="stat-label">Membre depuis</div>
+       </div>
+
+       <div class="stat-card">
+        <div class="stat-icon">
+         <i class="fas fa-sign-in-alt"></i>
+        </div>
+        <div class="stat-value">1</div>
+        <div class="stat-label">Connexions aujourd'hui</div>
+       </div>
+
+       <div class="stat-card">
+        <div class="stat-icon">
+         <i class="fas fa-eye"></i>
+        </div>
+        <div class="stat-value" id="page-views">0</div>
+        <div class="stat-label">Pages vues</div>
+       </div>
+
+       <div class="stat-card">
+        <div class="stat-icon">
+         <i class="fas fa-check-circle"></i>
+        </div>
+        <div class="stat-value">100%</div>
+        <div class="stat-label">Profil complété</div>
+       </div>
+      </div>
+     </div>
+    </div>
+   </main>
+
+   <!-- Footer -->
+   <%- include('../partials/footer') %>
+
+    <!-- JavaScript -->
+    <script src="/js/main.js"></script>
+
+    <script>
+     // Initialiser les fonctionnalités du dashboard
+     document.addEventListener('DOMContentLoaded', function () {
+      // Démarrer l'horloge en temps réel
+      updateClock();
+      setInterval(updateClock, 1000);
+
+      // Calculer la durée d'adhésion
+      calculateMembershipDuration();
+
+      // Simuler des vues de pages
+      updatePageViews();
+     });
+
+     function updateClock() {
+      const now = new Date();
+
+      // Mettre à jour l'heure
+      document.getElementById('hours').textContent = String(now.getHours()).padStart(2, '0');
+      document.getElementById('minutes').textContent = String(now.getMinutes()).padStart(2, '0');
+      document.getElementById('seconds').textContent = String(now.getSeconds()).padStart(2, '0');
+
+      // Mettre à jour la date
+      const options = {
+       weekday: 'long',
+       year: 'numeric',
+       month: 'long',
+       day: 'numeric'
+      };
+      const dateString = now.toLocaleDateString('fr-FR', options);
+      document.getElementById('current-date').textContent = dateString;
+     }
+
+     function calculateMembershipDuration() {
+      // Simuler une date d'inscription (vous pouvez récupérer la vraie date depuis les données utilisateur)
+      const joinDate = new Date('2024-01-01');
+      const now = new Date();
+      const diffTime = Math.abs(now - joinDate);
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+      document.getElementById('member-since').textContent = `${diffDays} jours`;
+     }
+
+     function updatePageViews() {
+      // Simuler le comptage des vues de pages
+      let views = localStorage.getItem('pageViews') || 0;
+      views = parseInt(views) + 1;
+      localStorage.setItem('pageViews', views);
+      document.getElementById('page-views').textContent = views;
+     }
+
+     function refreshDashboard() {
+      // Animation de rotation de l'icône
+      const icon = event.target.querySelector('.fas.fa-sync-alt') || event.target.closest('.action-button').querySelector('.fas.fa-sync-alt');
+      icon.style.animation = 'spin 1s linear';
+
+      // Simuler un refresh
+      setTimeout(() => {
+       icon.style.animation = '';
+       updatePageViews();
+       // Vous pouvez ajouter d'autres mises à jour ici
+      }, 1000);
+     }
+    </script>
+</body>
+
+</html>

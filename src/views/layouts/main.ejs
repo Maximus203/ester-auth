@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>
+  <%= title || 'Ester - Application d\' authentification' %>
+ </title>
+
+ <!-- Meta tags SEO -->
+ <% if (typeof meta !=='undefined' ) { %>
+  <% if (meta.description) { %>
+   <meta name="description" content="<%= meta.description %>">
+   <% } %>
+    <% if (meta.keywords) { %>
+     <meta name="keywords" content="<%= meta.keywords %>">
+     <% } %>
+      <% } %>
+
+       <!-- Favicon -->
+       <link rel="icon" type="image/x-icon" href="/favicon.ico">
+
+       <!-- CSS -->
+       <link rel="stylesheet" href="/css/main.css">
+
+       <!-- Fonts -->
+       <link rel="preconnect" href="https://fonts.googleapis.com">
+       <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+       <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+       <!-- Icons -->
+       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body class="<%= typeof bodyClass !== 'undefined' ? bodyClass : '' %>">
+ <!-- Navigation -->
+ <%- include('../partials/navigation') %>
+
+  <!-- Messages Flash -->
+  <%- include('../partials/flash-messages') %>
+
+   <!-- Contenu principal -->
+   <main class="main-content">
+    <%- body %>
+   </main>
+
+   <!-- Footer -->
+   <%- include('../partials/footer') %>
+
+    <!-- JavaScript -->
+    <script src="/js/main.js"></script>
+
+    <!-- JavaScript spécifique à la page -->
+    <% if (typeof pageScript !=='undefined' ) { %>
+     <script src="/js/<%= pageScript %>"></script>
+     <% } %>
+</body>
+
+</html>

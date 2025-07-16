@@ -1,0 +1,46 @@
+<% if (typeof session !=='undefined' && session) { %>
+ <!-- Message de succès -->
+ <% if (session.successMessage) { %>
+  <div class="flash-message flash-success" role="alert">
+   <div class="flash-content">
+    <i class="fas fa-check-circle flash-icon"></i>
+    <span class="flash-text">
+     <%= session.successMessage %>
+    </span>
+    <button class="flash-close" onclick="this.parentElement.parentElement.remove()">
+     <i class="fas fa-times"></i>
+    </button>
+   </div>
+  </div>
+  <% } %>
+
+   <!-- Message d'erreur -->
+   <% if (session.errorMessage) { %>
+    <div class="flash-message flash-error" role="alert">
+     <div class="flash-content">
+      <i class="fas fa-exclamation-circle flash-icon"></i>
+      <span class="flash-text">
+       <%= session.errorMessage %>
+      </span>
+      <button class="flash-close" onclick="this.parentElement.parentElement.remove()">
+       <i class="fas fa-times"></i>
+      </button>
+     </div>
+    </div>
+    <% } %>
+
+     <!-- Message d'information -->
+     <% if (session.infoMessage) { %>
+      <div class="flash-message flash-info" role="alert">
+       <div class="flash-content">
+        <i class="fas fa-info-circle flash-icon"></i>
+        <span class="flash-text">
+         <%= session.infoMessage %>
+        </span>
+        <button class="flash-close" onclick="this.parentElement.parentElement.remove()">
+         <i class="fas fa-times"></i>
+        </button>
+       </div>
+      </div>
+      <% } %>
+       <% } %>

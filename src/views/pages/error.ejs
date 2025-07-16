@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>
+  <%= title || 'Erreur - Ester' %>
+ </title>
+
+ <!-- Meta tags SEO -->
+ <% if (typeof meta !=='undefined' ) { %>
+  <% if (meta.description) { %>
+   <meta name="description" content="<%= meta.description %>">
+   <% } %>
+    <% if (meta.keywords) { %>
+     <meta name="keywords" content="<%= meta.keywords %>">
+     <% } %>
+      <% } %>
+
+       <!-- Favicon -->
+       <link rel="icon" type="image/x-icon" href="/favicon.ico">
+
+       <!-- CSS -->
+       <link rel="stylesheet" href="/css/main.css">
+
+       <!-- Fonts -->
+       <link rel="preconnect" href="https://fonts.googleapis.com">
+       <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+       <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+       <!-- Icons -->
+       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+ <!-- Navigation -->
+ <%- include('../partials/navigation') %>
+
+  <!-- Messages Flash -->
+  <%- include('../partials/flash-messages') %>
+
+   <!-- Contenu principal -->
+   <main class="main-content">
+    <div class="error-container">
+     <div class="error-content">
+      <!-- Icône d'erreur -->
+      <div class="error-icon">
+       <% if (typeof status !=='undefined' && status===404) { %>
+        <i class="fas fa-search"></i>
+        <% } else if (typeof status !=='undefined' && status===403) { %>
+         <i class="fas fa-ban"></i>
+         <% } else if (typeof status !=='undefined' && status===500) { %>
+          <i class="fas fa-server"></i>
+          <% } else { %>
+           <i class="fas fa-exclamation-triangle"></i>
+           <% } %>
+      </div>
+
+      <!-- Code d'erreur -->
+      <div class="error-code">
+       <% if (typeof status !=='undefined' ) { %>
+        <%= status %>
+         <% } else { %>
+          Erreur
+          <% } %>
+      </div>
+
+      <!-- Titre d'erreur -->
+      <h1 class="error-title">
+       <% if (typeof status !=='undefined' ) { %>
+        <% if (status===404) { %>
+         Page non trouvée
+         <% } else if (status===403) { %>
+          Accès interdit
+          <% } else if (status===500) { %>
+           Erreur du serveur
+           <% } else { %>
+            Une erreur s'est produite
+            <% } %>
+             <% } else { %>
+              Une erreur s'est produite
+              <% } %>
+      </h1>
+
+      <!-- Message d'erreur -->
+      <div class="error-message">
+       <% if (typeof message !=='undefined' && message) { %>
+        <%= message %>
+         <% } else if (typeof status !=='undefined' ) { %>
+          <% if (status===404) { %>
+           La page que vous recherchez n'existe pas ou a été déplacée.
+           <% } else if (status===403) { %>
+            Vous n'avez pas les permissions nécessaires pour accéder à cette ressource.
+            <% } else if (status===500) { %>
+             Une erreur interne du serveur s'est produite. Veuillez réessayer plus tard.
+             <% } else { %>
+              Une erreur inattendue s'est produite. Veuillez réessayer.
+              <% } %>
+               <% } else { %>
+                Une erreur inattendue s'est produite. Veuillez réessayer.
+                <% } %>
+      </div>
+
+      <!-- Actions -->
+      <div class="error-actions">
+       <a href="/" class="btn btn-primary">
+        <i class="fas fa-home"></i>
+        Retour à l'accueil
+       </a>
+
+       <button onclick="window.history.back()" class="btn btn-secondary">
+        <i class="fas fa-arrow-left"></i>
+        Page précédente
+       </button>
+
+       <a href="/contact" class="btn btn-outline">
+        <i class="fas fa-envelope"></i>
+        Signaler le problème
+       </a>
+      </div>
+
+      <!-- Suggestions -->
+      <div class="error-suggestions">
+       <h3 class="suggestions-title">
+        <i class="fas fa-lightbulb"></i>
+        Suggestions
+       </h3>
+
+       <ul class="suggestions-list">
+        <li>
+         <i class="fas fa-check"></i>
+         Vérifiez l'URL dans la barre d'adresse
+        </li>
+        <li>
+         <i class="fas fa-check"></i>
+         Utilisez le menu de navigation pour trouver ce que vous cherchez
+        </li>
+        <li>
+         <i class="fas fa-check"></i>
+         Essayez de rafraîchir la page (F5 ou Ctrl+R)
+        </li>
+        <% if (typeof status !=='undefined' && status===500) { %>
+         <li>
+          <i class="fas fa-check"></i>
+          Attendez quelques minutes et réessayez
+         </li>
+         <% } %>
+       </ul>
+      </div>
+
+      <!-- Informations techniques (en mode développement) -->
+      <% if (typeof error !=='undefined' && process.env.NODE_ENV==='development' ) { %>
+       <div class="error-technical">
+        <details>
+         <summary>Informations techniques (mode développement)</summary>
+         <div class="technical-content">
+          <h4>Stack trace :</h4>
+          <pre><%= error.stack %></pre>
+         </div>
+        </details>
+       </div>
+       <% } %>
+     </div>
+
+     <!-- Animation décorative -->
+     <div class="error-decoration">
+      <div class="floating-element"></div>
+      <div class="floating-element"></div>
+      <div class="floating-element"></div>
+     </div>
+    </div>
+   </main>
+
+   <!-- Footer -->
+   <%- include('../partials/footer') %>
+
+    <!-- JavaScript -->
+    <script src="/js/main.js"></script>
+
+    <script>
+     // Fonctionnalités spécifiques à la page d'erreur
+     document.addEventListener('DOMContentLoaded', function () {
+      // Animation d'apparition
+      const errorContent = document.querySelector('.error-content');
+      errorContent.style.opacity = '0';
+      errorContent.style.transform = 'translateY(20px)';
+
+      setTimeout(() => {
+       errorContent.style.transition = 'all 0.5s ease-out';
+       errorContent.style.opacity = '1';
+       errorContent.style.transform = 'translateY(0)';
+      }, 100);
+
+      // Animation des éléments flottants
+      animateFloatingElements();
+
+      // Gestion des raccourcis clavier
+      document.addEventListener('keydown', function (e) {
+       // ESC ou Retour arrière pour revenir
+       if (e.key === 'Escape' || e.key === 'Backspace') {
+        e.preventDefault();
+        window.history.back();
+       }
+       // Entrée pour aller à l'accueil
+       else if (e.key === 'Enter') {
+        window.location.href = '/';
+       }
+      });
+     });
+
+     function animateFloatingElements() {
+      const elements = document.querySelectorAll('.floating-element');
+
+      elements.forEach((element, index) => {
+       // Position aléatoire
+       element.style.left = Math.random() * 100 + '%';
+       element.style.top = Math.random() * 100 + '%';
+
+       // Animation continue
+       setInterval(() => {
+        const newX = Math.random() * 100;
+        const newY = Math.random() * 100;
+
+        element.style.transform = `translate(${newX}px, ${newY}px)`;
+       }, 3000 + index * 1000);
+      });
+     }
+
+     // Fonction pour signaler l'erreur
+     function reportError() {
+      const errorData = {
+       url: window.location.href,
+       userAgent: navigator.userAgent,
+       timestamp: new Date().toISOString(),
+       status: '<%= typeof status !== "undefined" ? status : "unknown" %>',
+       message: '<%= typeof message !== "undefined" ? message : "" %>'
+      };
+
+      // Ici vous pouvez envoyer les données d'erreur à votre système de logging
+      console.log('Rapport d\'erreur:', errorData);
+
+      // Simulation d'envoi
+      alert('Erreur signalée. Merci pour votre aide !');
+     }
+    </script>
+</body>
+
+</html>

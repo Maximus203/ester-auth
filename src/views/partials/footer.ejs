@@ -1,0 +1,73 @@
+<footer class="footer">
+ <div class="footer-container">
+  <div class="footer-content">
+   <!-- Logo et description -->
+   <div class="footer-section">
+    <div class="footer-logo">
+     <i class="fas fa-star"></i>
+     <span class="footer-logo-text">Ester</span>
+    </div>
+    <p class="footer-description">
+     Application moderne d'authentification avec interface responsive et sécurisée.
+    </p>
+   </div>
+
+   <!-- Liens rapides -->
+   <div class="footer-section">
+    <h4 class="footer-title">Liens rapides</h4>
+    <ul class="footer-links">
+     <li><a href="/" class="footer-link">Accueil</a></li>
+     <% if (typeof user !=='undefined' && user) { %>
+      <li><a href="/dashboard" class="footer-link">Dashboard</a></li>
+      <li><a href="/profile" class="footer-link">Profil</a></li>
+      <% } else { %>
+       <li><a href="/login" class="footer-link">Connexion</a></li>
+       <li><a href="/register" class="footer-link">Inscription</a></li>
+       <% } %>
+    </ul>
+   </div>
+
+   <!-- Contact -->
+   <div class="footer-section">
+    <h4 class="footer-title">Contact</h4>
+    <div class="footer-contact">
+     <p class="footer-contact-item">
+      <i class="fas fa-envelope"></i>
+      contact@ester.app
+     </p>
+     <p class="footer-contact-item">
+      <i class="fas fa-phone"></i>
+      +33 1 23 45 67 89
+     </p>
+    </div>
+   </div>
+
+   <!-- Réseaux sociaux -->
+   <div class="footer-section">
+    <h4 class="footer-title">Suivez-nous</h4>
+    <div class="footer-social">
+     <a href="#" class="social-link" aria-label="Facebook">
+      <i class="fab fa-facebook-f"></i>
+     </a>
+     <a href="#" class="social-link" aria-label="Twitter">
+      <i class="fab fa-twitter"></i>
+     </a>
+     <a href="#" class="social-link" aria-label="LinkedIn">
+      <i class="fab fa-linkedin-in"></i>
+     </a>
+     <a href="#" class="social-link" aria-label="GitHub">
+      <i class="fab fa-github"></i>
+     </a>
+    </div>
+   </div>
+  </div>
+
+  <!-- Copyright -->
+  <div class="footer-bottom">
+   <div class="footer-copyright">
+    <p>&copy; <%= new Date().getFullYear() %> Ester. Tous droits réservés.</p>
+    <p class="footer-version">v1.0.0</p>
+   </div>
+  </div>
+ </div>
+</footer>
